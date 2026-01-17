@@ -2,12 +2,22 @@
 
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function ProfilePage() {
   const router = useRouter();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/auth/me').then(res => {
+        if (res.ok) return res.json();
+        return null;
+    }).then(data => {
+        if (data) setUser(data);
+    });
+  }, []);
 
   const handleLogout = () => {
-    // Clear cookie logic would go here (call API to clear cookie)
     document.cookie = 'token=; Max-Age=0; path=/;';
     router.push('/auth/login');
   };
@@ -22,20 +32,42 @@ export default function ProfilePage() {
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
           <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: '#cbd5e1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 'bold', color: '#64748b' }}>
-            N
+            {user?.name?.[0] || 'U'}
           </div>
           <div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>Naveen Kumar</h2>
-            <p style={{ color: 'var(--text-secondary)' }}>+91 98765 43210</p>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>{user?.name || 'Loading...'}</h2>
+            <p style={{ color: 'var(--text-secondary)' }}>{user?.phone || ''}</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--primary-color)', fontWeight: 'bold' }}>{user?.role !== 'USER' ? user?.role.replace('_', ' ') : ''}</p>
           </div>
         </div>
+
+        {/* Admin / Delivery Controls */}
+        {['ADMIN', 'MASTER_ADMIN', 'DELIVERY'].includes(user?.role) && (
+            <section>
+                <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>Work & Ops</h3>
+                <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+                    {['ADMIN', 'MASTER_ADMIN'].includes(user?.role) && (
+                        <Link href="/admin/dashboard" style={{ padding: '1rem 0', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', textDecoration: 'none', color: 'inherit' }}>
+                            <span>Admin Dashboard</span>
+                            <span>🔐</span>
+                        </Link>
+                    )}
+                    {(user?.role === 'DELIVERY' || ['ADMIN', 'MASTER_ADMIN'].includes(user?.role)) && (
+                        <Link href="/delivery" style={{ padding: '1rem 0', display: 'flex', justifyContent: 'space-between', textDecoration: 'none', color: 'inherit' }}>
+                            <span>Delivery App</span>
+                            <span>🚚</span>
+                        </Link>
+                    )}
+                </div>
+            </section>
+        )}
 
         <section>
           <h3 style={{ fontSize: '0.875rem', fontWeight: '600', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.75rem', letterSpacing: '0.05em' }}>Account</h3>
           <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
              <Link href="/dashboard/profile/referral" style={{ padding: '1rem 0', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', textDecoration: 'none', color: 'inherit' }}>
                <span>Refer & Earn</span>
-               <span style={{ color: 'green', fontWeight: 'bold' }}>₹50 Off</span>
+               <span style={{ color: 'green', fontWeight: 'bold' }}>₹{user?.walletBalance || 0} Off</span>
              </Link>
              <Link href="/dashboard/profile/vacation" style={{ padding: '1rem 0', display: 'flex', justifyContent: 'space-between', textDecoration: 'none', color: 'inherit' }}>
                <span>Vacation Mode</span>
