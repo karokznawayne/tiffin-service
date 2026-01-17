@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 export default function DashboardPage() {
   const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
@@ -58,13 +59,13 @@ export default function DashboardPage() {
         </div>
 
         {/* Feedback Link */}
-        <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '15px', cursor: 'pointer' }} onClick={() => alert('Feedback modal to be implemented')}>
+        <Link href="/dashboard/feedback" className="card" style={{ display: 'flex', alignItems: 'center', gap: '15px', cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>
            <span style={{ fontSize: '1.5rem' }}>⭐</span>
            <div>
               <strong>Rate Yesterday's Meal</strong>
               <p style={{ fontSize: '0.75rem', color: '#64748b' }}>Help us improve &rarr;</p>
            </div>
-        </div>
+        </Link>
 
         {/* Action Banner */}
         <div className="card" style={{ background: 'linear-gradient(to right, #0f766e, #0d9488)', color: 'white', border: 'none' }}>

@@ -1,21 +1,28 @@
 'use client';
+import { useState, useEffect } from 'react';
 
 export default function AdminDashboard() {
+  const [stats, setStats] = useState({ totalUsers: 0, pendingApprovals: 0, activeOrders: 0 });
+
+  useEffect(() => {
+    fetch('/api/admin/stats').then(res => res.json()).then(data => setStats(data));
+  }, []);
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Master Admin Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="stat-card">
           <h3>Total Users</h3>
-          <p className="stat-value">...</p>
+          <p className="stat-value">{stats.totalUsers}</p>
         </div>
         <div className="stat-card">
           <h3>Pending Approvals</h3>
-          <p className="stat-value text-orange-500">Check Users Tab</p>
+          <p className="stat-value text-orange-500">{stats.pendingApprovals}</p>
         </div>
         <div className="stat-card">
           <h3>Active Orders</h3>
-          <p className="stat-value">...</p>
+          <p className="stat-value">{stats.activeOrders}</p>
         </div>
       </div>
 
