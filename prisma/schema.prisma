@@ -1,0 +1,115 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  DELIVERY
+}
+
+enum DietType {
+  VEG
+  NON_VEG
+  JAIN
+  VEGAN
+}
+
+enum SpiceLevel {
+  MILD
+  MEDIUM
+  SPICY
+}
+
+enum PlanDuration {
+  MONTHLY
+  WEEKLY
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+}
+
+enum OrderStatus {
+  PREPARING
+  OUT_FOR_DELIVERY
+  DELIVERED
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String?
+  email     String   @unique
+  phone     String?  @unique
+  password  String   // Hashed
+  address   String?
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  preferences   Preferences?
+  subscriptions Subscription[]
+  orders        Order[]
+  payments      Payment[]
+}
+
+model Preferences {
+  id          String     @id @default(uuid())
+  userId      String     @unique
+  dietType    DietType   @default(VEG)
+  spiceLevel  SpiceLevel @default(MEDIUM)
+  allergens   String[]   // Array of strings for flexibility
+  user        User       @relation(fields: [userId], references: [id])
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  userId    String
+  user      User               @relation(fields: [userId], references: [id])
+  planType  PlanDuration       @default(MONTHLY)
+  startDate DateTime
+  endDate   DateTime
+  status    SubscriptionStatus @default(ACTIVE)
+  createdAt DateTime           @default(now())
+}
+
+model Menu {
+  id          String   @id @default(uuid())
+  date        DateTime @unique // One menu per day
+  items       Json     // Store structured JSON of items: { breakfast: [], lunch: [], dinner: [] }
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Order {
+  id           String      @id @default(uuid())
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  date         DateTime    @default(now())
+  status       OrderStatus @default(PREPARING)
+  deliveryTime DateTime?
+  items        Json?       // Snapshot of what was ordered/customized
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  amount        Float
+  currency      String   @default("INR")
+  status        String   // SUCCESS, FAILED, PENDING
+  transactionId String?
+  createdAt     DateTime @default(now())
+}
