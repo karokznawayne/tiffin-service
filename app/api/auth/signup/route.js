@@ -22,12 +22,20 @@ export async function POST(request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Generate unique referral code (First 4 chars of name + 4 random numbers) 
+    const baseName = (name || 'USER').replace(/\s/g, '').toUpperCase().substring(0, 4);
+    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+    const referralCode = `${baseName}${randomSuffix}`;
+
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
         name,
         phone,
+        referralCode,
+        referredBy: body.referredBy || null,
+        walletBalance: body.referredBy ? 50.0 : 0.0,
         preferences: {
           create: {} // Default preferences
         }

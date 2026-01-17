@@ -55,6 +55,9 @@ model User {
   address   String?
   role      Role     @default(USER)
   isApproved Boolean @default(true) // Default true for customers, false for admins
+  referralCode String? @unique
+  referredBy   String? // Store the referral code of the inviter
+  walletBalance Float @default(0.0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -62,6 +65,8 @@ model User {
   subscriptions Subscription[]
   orders        Order[]
   payments      Payment[]
+  pauseRequests PauseRequest[]
+  feedbacks     Feedback[]
 }
 
 model Preferences {
@@ -88,6 +93,7 @@ model Menu {
   id          String   @id @default(uuid())
   date        DateTime @unique
   items       Json
+  nutrition   Json?    // { calories: 500, protein: 20, carbs: 60 }
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -112,4 +118,23 @@ model Payment {
   status        String
   transactionId String?
   createdAt     DateTime @default(now())
+}
+
+model PauseRequest {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  startDate DateTime
+  endDate   DateTime
+  status    String   @default("APPROVED") // Auto-approve for now
+  createdAt DateTime @default(now())
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
 }

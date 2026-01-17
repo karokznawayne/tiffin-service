@@ -11,6 +11,13 @@ export function middleware(request) {
     }
   }
 
+  // Protect delivery routes
+  if (pathname.startsWith('/delivery')) {
+    if (!token) {
+      return NextResponse.redirect(new URL('/auth/login', request.url));
+    }
+  }
+
   // Protect dashboard routes
   if (pathname.startsWith('/dashboard')) {
     if (!token) {
@@ -21,6 +28,7 @@ export function middleware(request) {
   // Redirect authenticated users away from auth pages
   if (pathname.startsWith('/auth') && token) {
     if (pathname.includes('admin')) return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+    if (pathname.includes('delivery')) return NextResponse.redirect(new URL('/delivery', request.url));
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
@@ -28,5 +36,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/auth/:path*', '/admin/:path*'],
+  matcher: ['/dashboard/:path*', '/auth/:path*', '/admin/:path*', '/delivery/:path*'],
 };

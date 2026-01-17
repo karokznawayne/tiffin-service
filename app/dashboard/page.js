@@ -1,3 +1,4 @@
+'use client';
 export default function DashboardPage() {
   const currentDate = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
@@ -34,6 +35,35 @@ export default function DashboardPage() {
               <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>With Jeera Rice, Dal Fry, and 3 Roti.</p>
             </div>
           </div>
+        </div>
+
+        {/* Nutri-Track Widget */}
+        <div className="card" style={{ background: 'white' }}>
+           <h3 style={{ fontSize: '1rem', fontWeight: '700', color: '#475569', marginBottom: '10px' }}>💪 Nutri-Track</h3>
+           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <div style={{ textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>540</span>
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase' }}>Kcal</span>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>22g</span>
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase' }}>Protein</span>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                  <span style={{ display: 'block', fontWeight: 'bold', fontSize: '1.1rem', color: '#333' }}>60g</span>
+                  <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase' }}>Carbs</span>
+              </div>
+           </div>
+           <p style={{ fontSize: '0.75rem', textAlign: 'center', marginTop: '0.5rem', color: '#64748b' }}>Based on today's menu</p>
+        </div>
+
+        {/* Feedback Link */}
+        <div className="card" style={{ display: 'flex', alignItems: 'center', gap: '15px', cursor: 'pointer' }} onClick={() => alert('Feedback modal to be implemented')}>
+           <span style={{ fontSize: '1.5rem' }}>⭐</span>
+           <div>
+              <strong>Rate Yesterday's Meal</strong>
+              <p style={{ fontSize: '0.75rem', color: '#64748b' }}>Help us improve &rarr;</p>
+           </div>
         </div>
 
         {/* Action Banner */}
