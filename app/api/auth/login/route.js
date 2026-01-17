@@ -20,6 +20,11 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
+    // RBAC: Check approval status for privileged roles
+    if (['ADMIN', 'TEAM_LEAD'].includes(user.role) && !user.isApproved) {
+      return NextResponse.json({ error: 'Account pending approval by Master Admin' }, { status: 403 });
+    }
+
     const token = signJwt({ userId: user.id, email: user.email, role: user.role });
 
     const { password: _, ...userWithoutPassword } = user;
