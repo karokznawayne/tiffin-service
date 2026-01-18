@@ -10,15 +10,15 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Master Admin Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <h1 className="page-title" style={{ marginBottom: '1.5rem' }}>Master Admin Dashboard</h1>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
         <div className="stat-card">
           <h3>Total Users</h3>
           <p className="stat-value">{stats.totalUsers}</p>
         </div>
         <div className="stat-card">
           <h3>Pending Approvals</h3>
-          <p className="stat-value text-orange-500">{stats.pendingApprovals}</p>
+          <p className="stat-value" style={{ color: '#f97316' }}>{stats.pendingApprovals}</p>
         </div>
         <div className="stat-card">
           <h3>Active Orders</h3>

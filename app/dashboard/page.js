@@ -33,27 +33,33 @@ export default function DashboardPage() {
   // Onboarding Screen if no preference set
   if (!preferences?.dietType) {
       return (
-        <div className="min-h-screen bg-white p-6 flex flex-col justify-center">
-            <h1 className="text-3xl font-bold mb-2">Welcome! 👋</h1>
-            <p className="text-gray-500 mb-8">To get started, tell us what you love to eat.</p>
+        <div style={{ minHeight: '100vh', padding: '2rem', background: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Welcome! 👋</h1>
+            <p style={{ color: '#666', marginBottom: '2rem' }}>To get started, tell us what you love to eat.</p>
 
-            <div className="space-y-4">
-                <button onClick={() => savePreference('VEG')} className="w-full p-6 text-left border rounded-2xl hover:border-green-500 hover:bg-green-50 transition group">
-                   <div className="text-2xl mb-2">🥦</div>
-                   <div className="font-bold text-lg group-hover:text-green-700">Pure Veg</div>
-                   <div className="text-sm text-gray-500">Homestyle veggies, dal, and roti.</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <button onClick={() => savePreference('VEG')} style={{ padding: '1.5rem', textAlign: 'left', border: '1px solid #ddd', borderRadius: '1rem', background: '#f9f9f9', cursor: 'pointer', transition: '0.2s', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                   <div style={{ fontSize: '2rem' }}>🥦</div>
+                   <div>
+                       <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Pure Veg</div>
+                       <div style={{ fontSize: '0.875rem', color: '#666' }}>Homestyle veggies, dal, and roti.</div>
+                   </div>
                 </button>
 
-                <button onClick={() => savePreference('NON_VEG')} className="w-full p-6 text-left border rounded-2xl hover:border-red-500 hover:bg-red-50 transition group">
-                   <div className="text-2xl mb-2">🍗</div>
-                   <div className="font-bold text-lg group-hover:text-red-700">Non-Veg</div>
-                   <div className="text-sm text-gray-500">Chicken & Egg specials + Veg meals.</div>
+                <button onClick={() => savePreference('NON_VEG')} style={{ padding: '1.5rem', textAlign: 'left', border: '1px solid #ddd', borderRadius: '1rem', background: '#f9f9f9', cursor: 'pointer', transition: '0.2s', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                   <div style={{ fontSize: '2rem' }}>🍗</div>
+                   <div>
+                       <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Non-Veg</div>
+                       <div style={{ fontSize: '0.875rem', color: '#666' }}>Chicken & Egg specials + Veg meals.</div>
+                   </div>
                 </button>
 
-                <button onClick={() => savePreference('BOTH')} className="w-full p-6 text-left border rounded-2xl hover:border-orange-500 hover:bg-orange-50 transition group">
-                   <div className="text-2xl mb-2">🥘</div>
-                   <div className="font-bold text-lg group-hover:text-orange-700">Both (Combo)</div>
-                   <div className="text-sm text-gray-500">Veg on weekdays, Non-Veg on weekends.</div>
+                <button onClick={() => savePreference('BOTH')} style={{ padding: '1.5rem', textAlign: 'left', border: '1px solid #ddd', borderRadius: '1rem', background: '#f9f9f9', cursor: 'pointer', transition: '0.2s', display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                   <div style={{ fontSize: '2rem' }}>🥘</div>
+                   <div>
+                       <div style={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Both (Combo)</div>
+                       <div style={{ fontSize: '0.875rem', color: '#666' }}>Veg on weekdays, Non-Veg on weekends.</div>
+                   </div>
                 </button>
             </div>
         </div>

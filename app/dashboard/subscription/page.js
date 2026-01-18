@@ -37,41 +37,41 @@ export default function SubscriptionPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold mb-2">Choose Your Plan</h1>
-        <p className="text-gray-500 mb-6">Fresh, home-cooked food delivered to your door.</p>
+    <div style={{ minHeight: '100vh', background: 'white', paddingBottom: '5rem' }}>
+      <div style={{ padding: '1.5rem' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Choose Your Plan</h1>
+        <p style={{ color: '#666', marginBottom: '1.5rem' }}>Fresh, home-cooked food delivered to your door.</p>
 
         {/* Toggle */}
-        <div className="flex bg-gray-100 p-1 rounded-xl mb-8">
+        <div style={{ display: 'flex', background: '#f3f4f6', padding: '0.25rem', borderRadius: '0.75rem', marginBottom: '2rem' }}>
             <button 
-                className={`flex-1 py-2 rounded-lg font-bold text-sm transition ${selectedPlan === 'WEEKLY' ? 'bg-white shadow-sm text-black' : 'text-gray-500'}`}
+                style={{ flex: 1, padding: '0.5rem', borderRadius: '0.5rem', fontWeight: 'bold', fontSize: '0.875rem', border: 'none', cursor: 'pointer', background: selectedPlan === 'WEEKLY' ? 'white' : 'transparent', boxShadow: selectedPlan === 'WEEKLY' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none', color: selectedPlan === 'WEEKLY' ? 'black' : '#6b7280' }}
                 onClick={() => setSelectedPlan('WEEKLY')}
             >
                 Weekly
             </button>
             <button 
-                className={`flex-1 py-2 rounded-lg font-bold text-sm transition ${selectedPlan === 'MONTHLY' ? 'bg-white shadow-sm text-black' : 'text-gray-500'}`}
+                style={{ flex: 1, padding: '0.5rem', borderRadius: '0.5rem', fontWeight: 'bold', fontSize: '0.875rem', border: 'none', cursor: 'pointer', background: selectedPlan === 'MONTHLY' ? 'white' : 'transparent', boxShadow: selectedPlan === 'MONTHLY' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none', color: selectedPlan === 'MONTHLY' ? 'black' : '#6b7280' }}
                 onClick={() => setSelectedPlan('MONTHLY')}
             >
                 Monthly
             </button>
         </div>
 
-        <div className="space-y-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {plans.map(plan => (
-                <div key={plan.id} className={`p-6 rounded-2xl border ${plan.color} relative overflow-hidden`}>
-                    <div className="relative z-10">
-                        <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-bold text-lg">{plan.title}</h3>
-                            <span className="bg-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
+                <div key={plan.id} style={{ padding: '1.5rem', borderRadius: '1rem', border: '1px solid #e5e7eb', background: plan.id === 'VEG' ? '#f0fdf4' : plan.id === 'NON_VEG' ? '#fef2f2' : '#fff7ed', borderColor: plan.id === 'VEG' ? '#bbf7d0' : plan.id === 'NON_VEG' ? '#fecaca' : '#fed7aa' }}>
+                    <div style={{ position: 'relative', zIndex: 10 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+                            <h3 style={{ fontWeight: 'bold', fontSize: '1.125rem' }}>{plan.title}</h3>
+                            <span style={{ background: 'white', padding: '0.25rem 0.75rem', borderRadius: '9999px', fontSize: '0.75rem', fontWeight: 'bold', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
                                 ₹{plan.price[selectedPlan]}
                             </span>
                         </div>
-                        <p className="text-sm text-gray-600 mb-4 pr-10">{plan.desc}</p>
+                        <p style={{ fontSize: '0.875rem', color: '#4b5563', marginBottom: '1rem', paddingRight: '2.5rem' }}>{plan.desc}</p>
                         <button 
                             onClick={() => handleSubscribe(plan.id)}
-                            className="w-full bg-black text-white py-3 rounded-xl font-bold active:scale-95 transition"
+                            style={{ width: '100%', background: 'black', color: 'white', padding: '0.75rem', borderRadius: '0.75rem', fontWeight: 'bold', border: 'none', cursor: 'pointer', transition: 'transform 0.1s' }}
                         >
                             Select Plan
                         </button>
