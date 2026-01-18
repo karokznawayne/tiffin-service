@@ -1,12 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function SubscriptionPage() {
   const router = useRouter();
   const [selectedPlan, setSelectedPlan] = useState('MONTHLY');
+  const [preferences, setPreferences] = useState(null);
 
-  const plans = [
+  useEffect(() => {
+    fetch('/api/user/preferences').then(res => res.json()).then(data => setPreferences(data));
+  }, []);
+
+  const allPlans = [
     {
        id: 'VEG',
        title: 'Pure Veg Delight',
@@ -30,19 +35,25 @@ export default function SubscriptionPage() {
     }
   ];
 
+  // Filter plans based on preference
+  const plans = allPlans.filter(p => {
+      if (!preferences?.dietType) return true; // Show all if no pref (shouldn't happen due to onboarding)
+      return p.id === preferences.dietType;
+  });
+
   const handleSubscribe = (planId) => {
-    // In real app, redirect to payment gateway
     alert(`Starting ${selectedPlan} subscription for ${planId}. Redirecting to Payment...`);
     setTimeout(() => router.push('/dashboard'), 2000);
   };
+
+  if (!preferences) return <div style={{ padding: '2rem', textAlign: 'center' }}>Loading plans...</div>;
 
   return (
     <div style={{ minHeight: '100vh', background: 'white', paddingBottom: '5rem' }}>
       <div style={{ padding: '1.5rem' }}>
         <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Choose Your Plan</h1>
-        <p style={{ color: '#666', marginBottom: '1.5rem' }}>Fresh, home-cooked food delivered to your door.</p>
+        <p style={{ color: '#666', marginBottom: '1.5rem' }}> curated for your <strong>{preferences.dietType.replace('_', ' ')}</strong> preference.</p>
 
-        {/* Toggle */}
         <div style={{ display: 'flex', background: '#f3f4f6', padding: '0.25rem', borderRadius: '0.75rem', marginBottom: '2rem' }}>
             <button 
                 style={{ flex: 1, padding: '0.5rem', borderRadius: '0.5rem', fontWeight: 'bold', fontSize: '0.875rem', border: 'none', cursor: 'pointer', background: selectedPlan === 'WEEKLY' ? 'white' : 'transparent', boxShadow: selectedPlan === 'WEEKLY' ? '0 1px 2px rgba(0,0,0,0.05)' : 'none', color: selectedPlan === 'WEEKLY' ? 'black' : '#6b7280' }}

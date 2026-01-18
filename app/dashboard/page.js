@@ -94,10 +94,18 @@ export default function DashboardPage() {
             </div>
             <div style={{ padding: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '0.5rem' }}>
-                <h3 style={{ fontWeight: '600' }}>Paneer Butter Masala</h3>
-                <span style={{ fontSize: '0.75rem', background: '#dcfce7', color: '#166534', padding: '0.25rem 0.5rem', borderRadius: '1rem' }}>Veg</span>
+                <h3 style={{ fontWeight: '600' }}>
+                   {preferences.dietType === 'NON_VEG' ? 'Butter Chicken' : 
+                    preferences.dietType === 'BOTH' ? 'Chicken & Veg Combo' : 'Paneer Butter Masala'}
+                </h3>
+                <span style={{ fontSize: '0.75rem', background: preferences.dietType === 'NON_VEG' ? '#fee2e2' : '#dcfce7', color: preferences.dietType === 'NON_VEG' ? '#b91c1c' : '#166534', padding: '0.25rem 0.5rem', borderRadius: '1rem' }}>
+                    {preferences.dietType.replace('_', ' ')}
+                </span>
               </div>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>With Jeera Rice, Dal Fry, and 3 Roti.</p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                 {preferences.dietType === 'NON_VEG' ? 'With 2 Naan, Jeera Rice, and Salad.' : 
+                  'With Jeera Rice, Dal Fry, and 3 Roti.'}
+              </p>
             </div>
           </div>
         </div>
