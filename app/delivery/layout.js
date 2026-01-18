@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation';
 export default function DeliveryLayout({ children }) {
   const router = useRouter();
 
-  const handleLogout = () => {
-    document.cookie = 'token=; Max-Age=0; path=/;';
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
     router.push('/auth/login');
   };
 
