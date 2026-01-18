@@ -73,8 +73,8 @@ model User {
 model Preferences {
   id          String     @id @default(uuid())
   userId      String     @unique
-  dietType    DietType   @default(VEG)
-  spiceLevel  SpiceLevel @default(MEDIUM)
+  dietType    DietType?
+  spiceLevel  SpiceLevel?
   allergens   String[]
   user        User       @relation(fields: [userId], references: [id])
 }

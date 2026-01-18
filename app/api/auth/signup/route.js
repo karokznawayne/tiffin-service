@@ -35,10 +35,7 @@ export async function POST(request) {
         phone,
         referralCode,
         referredBy: body.referredBy || null,
-        walletBalance: body.referredBy ? 50.0 : 0.0,
-        preferences: {
-          create: {} // Default preferences
-        }
+        walletBalance: body.referredBy ? 50.0 : 0.0
       },
     });
 
