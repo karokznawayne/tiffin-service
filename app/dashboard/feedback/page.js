@@ -26,7 +26,6 @@ export default function FeedbackPage() {
 
   if (submitted) {
     return (
-    return (
         <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f0fdf4', padding: '1.5rem' }}>
             <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '3.75rem', marginBottom: '1rem' }}>🎉</div>
@@ -34,7 +33,6 @@ export default function FeedbackPage() {
                 <p style={{ color: '#15803d' }}>Your feedback helps us improve.</p>
             </div>
         </div>
-    );
     );
   }
 
